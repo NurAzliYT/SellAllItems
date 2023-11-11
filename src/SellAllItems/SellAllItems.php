@@ -6,7 +6,7 @@ use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\item\Item;
-use pocketmine\player\Player;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
@@ -42,22 +42,19 @@ class SellAllItems extends PluginBase {
         $totalMoney = 0;
 
         foreach ($player->getInventory()->getContents() as $slot => $item) {
-            if ($item->getId() !== \pocketmine\item\Item::BEDROCK) {
+            // Bedrock ID is 7
+            if ($item->getId() !== 7) {
                 $player->getInventory()->clear($slot);
                 $totalMoney += $sellPrice;
             }
         }
 
-        if ($totalMoney > 0) {
-            $bedrockEconomy = $this->getServer()->getPluginManager()->getPlugin("BedrockEconomy");
-            if ($bedrockEconomy !== null) {
-                $bedrockEconomy->addMoney($player->getName(), $totalMoney);
-                $player->sendMessage("You have sold all items (except Bedrock) and earned " . $totalMoney . " money.");
-            } else {
-                $this->getLogger()->warning("BedrockEconomy plugin not found. Money not added.");
-            }
+        $bedrockEconomy = $this->getServer()->getPluginManager()->getPlugin("BedrockEconomy");
+        if ($bedrockEconomy !== null && method_exists($bedrockEconomy, 'addMoney')) {
+            $bedrockEconomy->addMoney($player->getName(), $totalMoney);
+            $player->sendMessage("You have sold all items (except Bedrock) and earned " . $totalMoney . " money.");
         } else {
-            $player->sendMessage("You don't have any items to sell.");
+            $this->getLogger()->warning("BedrockEconomy plugin not found or does not support addMoney method. Money not added.");
         }
     }
 }
