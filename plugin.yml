@@ -1,6 +1,17 @@
 name: SellAllItems
-main: SellAllItems\SellAllItems
-api: 5.0.0
 version: 1.0.0
+api: [4.0.0, 5.0.0]
+main: SellAllItems\SellAllItems
 author: NurAzliYT
-depend: BedrockEconomy
+description: "A plugin to sell all items (except Bedrock) and earn money."
+
+commands:
+  sellall:
+    description: "Sell all items (except Bedrock) and earn money."
+    permission: sellall.items
+    usage: /sellall
+    aliases: [sall, allsell]
+
+permissions:
+  sellall.items:
+  default: default
