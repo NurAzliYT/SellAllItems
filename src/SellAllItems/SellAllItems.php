@@ -12,7 +12,7 @@ use pocketmine\Server;
 
 class SellAllItems extends PluginBase {
 
-    public function onEnable() {
+    public function onEnable(): void {
         $this->getLogger()->info("SellAllItems enabled!");
     }
 
@@ -42,15 +42,20 @@ class SellAllItems extends PluginBase {
         $totalMoney = 0;
 
         foreach ($player->getInventory()->getContents() as $slot => $item) {
-            if ($item->getId() !== Item::BEDROCK) {
+            if ($item->getId() !== \pocketmine\item\Item::BEDROCK) {
                 $player->getInventory()->clear($slot);
                 $totalMoney += $sellPrice;
             }
         }
 
         if ($totalMoney > 0) {
-            $this->getServer()->getPluginManager()->getPlugin("BedrockEconomy")->addMoney($player->getName(), $totalMoney);
-            $player->sendMessage("You have sold all items (except Bedrock) and earned " . $totalMoney . " money.");
+            $bedrockEconomy = $this->getServer()->getPluginManager()->getPlugin("BedrockEconomy");
+            if ($bedrockEconomy !== null) {
+                $bedrockEconomy->addMoney($player->getName(), $totalMoney);
+                $player->sendMessage("You have sold all items (except Bedrock) and earned " . $totalMoney . " money.");
+            } else {
+                $this->getLogger()->warning("BedrockEconomy plugin not found. Money not added.");
+            }
         } else {
             $player->sendMessage("You don't have any items to sell.");
         }
