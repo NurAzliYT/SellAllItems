@@ -5,16 +5,13 @@ namespace SellAllItems;
 use jojoe77777\FormAPI\SimpleForm;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\item\Item;
+use pocketmine\item\ItemIds;
+use pocketmine\item\VanillaItems;
 use pocketmine\player\Player; // Change here
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
 class SellAllItems extends PluginBase {
-
-    public function onEnable(): void {
-        $this->getLogger()->info("SellAllItems enabled!");
-    }
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
         if ($sender instanceof Player) {
