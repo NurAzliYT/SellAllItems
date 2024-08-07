@@ -40,7 +40,7 @@ class SellAllItems extends PluginBase {
 
         foreach ($player->getInventory()->getContents() as $slot => $item) {
             // Bedrock ID is 7
-            if ($item->getId() !== 7) {
+            if ($vanillaItems->getId() !== 7) {
                 $player->getInventory()->clear($slot);
                 $totalMoney += $sellPrice;
             }
