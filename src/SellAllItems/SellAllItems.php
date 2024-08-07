@@ -14,7 +14,7 @@ use pocketmine\Server;
 class SellAllItems extends PluginBase {
 
     /** @var VanillaItems */
-    private $vanillaItems
+    private $vanillaItems;
 
     public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool {
         if ($sender instanceof Player) {
